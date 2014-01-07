@@ -8,7 +8,8 @@
          xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
 
     <!-- Import the client WSDL -->
-	<bpel:import location="TravelAgencyArtifacts.wsdl" namespace="http://TravelAgency.Milestone3.SC13Project/" 
+    <bpel:import namespace="http://FlightTicket.Milestone1.SC13Project" location="file:/C:/Users/Oliver/Desktop/bpelContent/FlightTicketImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"></bpel:import>
+    <bpel:import location="TravelAgencyArtifacts.wsdl" namespace="http://TravelAgency.Milestone3.SC13Project/" 
 	        importType="http://schemas.xmlsoap.org/wsdl/" />
     
     <!-- Import the ShippingWS WSDL --> 
@@ -28,6 +29,8 @@
                      />
         <bpel:partnerLink name="ShipperWS" partnerLinkType="sns:ShippingWSLT" partnerRole="ShippingWSProvider"></bpel:partnerLink>
               
+        
+        
     </bpel:partnerLinks>
   
     <!-- ================================================================= -->         
@@ -83,7 +86,7 @@
         
         <bpel:assign validate="no" name="AssignBookingInputVariables"></bpel:assign>
         
-        <bpel:flow name="Flow"><bpel:invoke name="InvokeBookFlight"></bpel:invoke><bpel:invoke name="InvokeBookReturnFlight"></bpel:invoke><bpel:invoke name="InvokeGetReturnFlightInfo"></bpel:invoke><bpel:invoke name="InvokeGetFlightInfo"></bpel:invoke><bpel:invoke name="InvokeGetAvailableRooms"></bpel:invoke><bpel:invoke name="InvokeBookHotel"></bpel:invoke></bpel:flow>
+        <bpel:flow name="Flow"><bpel:invoke name="InvokeBookFlight"></bpel:invoke><bpel:invoke name="InvokeBookReturnFlight"></bpel:invoke><bpel:invoke name="InvokeGetReturnFlightInfo" operation="getFlightInfo" portType="FlightTicketImplPortType"></bpel:invoke><bpel:invoke name="InvokeGetFlightInfo"></bpel:invoke><bpel:invoke name="InvokeGetAvailableRooms"></bpel:invoke><bpel:invoke name="InvokeBookHotel"></bpel:invoke><bpel:sequence name="Sequence"></bpel:sequence></bpel:flow>
         
         
         
