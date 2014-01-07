@@ -5,9 +5,12 @@
          suppressJoinFailure="yes"
          xmlns:tns="http://TravelAgency.Milestone3.SC13Project/"
          xmlns:sns="http://Shipping.Milestone1.SC12Project" 
-         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns="http://Payment.Milestone1.SC13Project" xmlns:ns0="http://BookStore.Milestone1.SC13Project" xmlns:ns1="http://Warehouse.Milestone1.SC13Project">
 
     <!-- Import the client WSDL -->
+    <bpel:import namespace="http://BookStore.Milestone1.SC13Project" location="BookStoreImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"></bpel:import>
+    <bpel:import namespace="http://Warehouse.Milestone1.SC13Project" location="WarehouseImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"></bpel:import>
+    <bpel:import namespace="http://Payment.Milestone1.SC13Project" location="PaymentImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"></bpel:import>
     <bpel:import namespace="http://FlightTicket.Milestone1.SC13Project" location="file:/C:/Users/Oliver/Desktop/bpelContent/FlightTicketImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"></bpel:import>
     <bpel:import location="TravelAgencyArtifacts.wsdl" namespace="http://TravelAgency.Milestone3.SC13Project/" 
 	        importType="http://schemas.xmlsoap.org/wsdl/" />
@@ -31,6 +34,9 @@
               
         
         
+        <bpel:partnerLink name="PaymentWS" partnerLinkType="tns:PaymentLT" partnerRole="paymentService"></bpel:partnerLink>
+        <bpel:partnerLink name="WarehouseWS" partnerLinkType="tns:WarehouseLT" partnerRole="warehouseService"></bpel:partnerLink>
+        <bpel:partnerLink name="BookStoreWS" partnerLinkType="tns:BookStoreLT" partnerRole="bookStoreService"></bpel:partnerLink>
     </bpel:partnerLinks>
   
     <!-- ================================================================= -->         
@@ -56,6 +62,16 @@
         <bpel:variable name="inputDate" 
                   messageType="tns:InputDateMessage" />
                             
+        <bpel:variable name="PaymentWSResponse" messageType="ns:transferResponse"></bpel:variable>
+        <bpel:variable name="PaymentWSRequest" messageType="ns:transferRequest"></bpel:variable>
+        <bpel:variable name="BookStoreWSResponse" messageType="ns0:getBooksByTitleResponse"></bpel:variable>
+        <bpel:variable name="BookStoreWSRequest" messageType="ns0:getBooksByTitleRequest"></bpel:variable>
+        <bpel:variable name="WarehouseWSResponse" messageType="ns1:queryResponse"></bpel:variable>
+        <bpel:variable name="WarehouseWSRequest" messageType="ns1:queryRequest"></bpel:variable>
+        <bpel:variable name="WarehouseWSResponse1" messageType="ns1:complementStockResponse"></bpel:variable>
+        <bpel:variable name="WarehouseWSRequest1" messageType="ns1:complementStockRequest"></bpel:variable>
+        <bpel:variable name="WarehouseWSResponse2" messageType="ns1:pickupItemsResponse"></bpel:variable>
+        <bpel:variable name="WarehouseWSRequest2" messageType="ns1:pickupItemsRequest"></bpel:variable>
     </bpel:variables>
 
     <!-- ================================================================= -->         
@@ -63,16 +79,11 @@
     <!-- Set of activities coordinating the flow of messages across the    -->
     <!-- services integrated within this business process                  -->
     <!-- ================================================================= -->         
-    <bpel:sequence name="main">
-        
-        <!-- Receive input from requester. 
+    <bpel:sequence name="main"><!-- Receive input from requester. 
              Note: This maps to operation defined in TravelAgency.wsdl 
              -->
         
-        <bpel:receive name="receiveInput" partnerLink="client"
-                 portType="tns:TravelAgency"
-                 operation="process" variable="input"
-                 createInstance="yes"/>   
+        <bpel:receive name="receiveInput" partnerLink="client" portType="tns:TravelAgency" operation="process" variable="input" createInstance="yes" />   
 
         <bpel:assign name="doXslTranform1">
                   <bpel:copy>
@@ -91,9 +102,9 @@
         
         
         <bpel:assign validate="no" name="AssignBookStoreInputVariable"></bpel:assign>
-        <bpel:invoke name="InvokeGetBooksByTitle"></bpel:invoke>
+        <bpel:invoke name="InvokeGetBooksByTitle" partnerLink="BookStoreWS" operation="getBooksByTitle" portType="ns0:BookStoreImplPortType" inputVariable="BookStoreWSRequest" outputVariable="BookStoreWSResponse"></bpel:invoke>
         <bpel:assign validate="no" name="AssignWarehouseQueryInputVariable"></bpel:assign>
-        <bpel:invoke name="InvokeWarehouseQuery"></bpel:invoke>
+        <bpel:invoke name="InvokeWarehouseQuery" partnerLink="WarehouseWS" operation="query" portType="ns1:WarehouseImplPortType" inputVariable="WarehouseWSRequest" outputVariable="WarehouseWSResponse"></bpel:invoke>
         
         
         
@@ -104,18 +115,18 @@
             <bpel:sequence>
                 <bpel:assign validate="no" name="CalculatePrice"></bpel:assign>
                 <bpel:assign validate="no" name="AssignPaymentInputVariable"></bpel:assign>
-                <bpel:invoke name="InvokePayment"></bpel:invoke>
+                <bpel:invoke name="InvokePayment" partnerLink="PaymentWS" operation="transfer" portType="ns:PaymentImplPortType" inputVariable="PaymentWSRequest" outputVariable="PaymentWSResponse"></bpel:invoke>
                 <bpel:assign validate="no" name="AssignComplementStockInputVariable"></bpel:assign>
                 
                 
-                <bpel:invoke name="InvokeComlementStock"></bpel:invoke>
+                <bpel:invoke name="InvokeComlementStock" partnerLink="WarehouseWS" operation="complementStock" portType="ns1:WarehouseImplPortType" inputVariable="WarehouseWSRequest1" outputVariable="WarehouseWSResponse1"></bpel:invoke>
                 
                 
             </bpel:sequence>
         </bpel:if>
         
         <bpel:assign validate="no" name="AssignPickUpItemInputVariable"></bpel:assign>
-        <bpel:invoke name="InvokePickUpItem"></bpel:invoke>
+        <bpel:invoke name="InvokePickUpItem" partnerLink="WarehouseWS" operation="pickupItems" portType="ns1:WarehouseImplPortType" inputVariable="WarehouseWSRequest2" outputVariable="WarehouseWSResponse2"></bpel:invoke>
         <bpel:assign validate="no" name="AssignShippingInputVariable">
             <bpel:copy>
                 <bpel:from>
@@ -131,7 +142,7 @@
             
         </bpel:assign>
         
-        <bpel:invoke name="InvokeShippingWS" partnerLink="ShipperWS" portType="sns:ShippingWSPortType" operation="shipping" inputVariable="shippingInput" outputVariable="shippingOutput"/>
+        <bpel:invoke name="InvokeShippingWS" partnerLink="ShipperWS" portType="sns:ShippingWSPortType" operation="shipping" inputVariable="shippingInput" outputVariable="shippingOutput" />
         
         <bpel:assign validate="no" name="AssignOutput">
             <bpel:copy>
@@ -186,13 +197,9 @@
             </bpel:copy>
         </bpel:assign>        
         
-        <bpel:reply name="replyOutput" 
-               partnerLink="client"
-               portType="tns:TravelAgency"
-               operation="process" 
-               variable="output"
-               />
+        <bpel:reply name="replyOutput" partnerLink="client" portType="tns:TravelAgency" operation="process" variable="output" />
                                 
+    
     </bpel:sequence>
 </bpel:process>
 
