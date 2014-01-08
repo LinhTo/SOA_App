@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
+<<<<<<< HEAD
 <extensionmodel:ExtensionMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:extensionmodel="http:///extensionmodel.ecore" xmlns:org.eclipse.bpel.ui.uiextensionmodel="http:///org/eclipse/bpel/ui/uiextensionmodel.ecore" namespace="http://org.eclipse.bpel.ui/">
   <extensions>
     <extendedObject href="TravelAgency.bpel#//@variables/@children.0"/>
@@ -429,3 +430,6 @@
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
 </extensionmodel:ExtensionMap>
+=======
+<extensionmodel:ExtensionMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:extensionmodel="http:///extensionmodel.ecore" namespace="http://org.eclipse.bpel.ui/"/>
+>>>>>>> c6d2e9b9e7a30c9918fe8d99e2f00a76da7315c5
