@@ -1,6 +1,7 @@
 .metadata
 *.class
 *.bpelex
+*.orig
 .project
 .settings
 RemoteSystemsTempFiles
