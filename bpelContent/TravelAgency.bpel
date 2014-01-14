@@ -109,6 +109,11 @@
                 <bpel:literal xml:space="preserve">false</bpel:literal>
             </bpel:from>
         </bpel:variable>
+        <bpel:variable name="noSuccessFlight" type="ns:boolean"></bpel:variable>
+        <bpel:variable name="noSuccessReturnFlight" type="ns:boolean"></bpel:variable>
+        <bpel:variable name="noSuccessHotel" type="ns:boolean"></bpel:variable>
+        <bpel:variable name="FlightTicketWSCancelRequest" messageType="flight:cancelBookingRequest"></bpel:variable>
+        <bpel:variable name="HotelReservationWSRequest" messageType="hotel:cancelBookingRequest"></bpel:variable>
     </bpel:variables>
 
     <!-- ================================================================= -->         
@@ -487,61 +492,115 @@
 				<bpel:invoke name="InvokeBookRoom" partnerLink="HotelReservationWS" operation="bookRoom" inputVariable="HotelReservationWSbookRoomRequest" outputVariable="HotelReservationWSbookRoomResponse" />
         </bpel:sequence>
         </bpel:flow>
-		<bpel:if name="checkFlight">
-            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData($FlightTicketWSbookFlightResponse.parameters)/flight:return = "true"]]></bpel:condition>
-            <bpel:empty name="Empty"></bpel:empty>
-            <bpel:else>
-				<bpel:assign validate="no" name="setNoSuccessFlight">
-                    <bpel:copy>
-                        <bpel:from>
-                            <bpel:literal xml:space="preserve">false</bpel:literal>
-                        </bpel:from>
-						<bpel:to variable="greatSuccess"/>
-                    </bpel:copy>
-                </bpel:assign>
-            </bpel:else>
         
-        </bpel:if>
-		<bpel:if name="checkReturnFlight">
-            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData($FlightTicketWSbookReturnFlightResponse.parameters)/flight:return = "true"]]></bpel:condition>
-            <bpel:empty name="Empty1"></bpel:empty>
-            <bpel:else>
-				<bpel:assign validate="no" name="SetNoSuccessReturnFlight">
-					<bpel:copy>
-						<bpel:from>
-							<bpel:literal xml:space="preserve">false</bpel:literal>
-						</bpel:from>
-						<bpel:to variable="greatSuccess" />
-					</bpel:copy>
-                    <bpel:copy>
-                        <bpel:from>
-                            <bpel:literal xml:space="preserve">false</bpel:literal>
-                        </bpel:from>
-						<bpel:to variable="greatSuccess" />
-                    </bpel:copy>
-                </bpel:assign>
-            </bpel:else>
         
-        </bpel:if>
-		<bpel:if name="checkHotelBooking">
-            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData($HotelReservationWSbookRoomResponse.parameters)/hotel:return = "true"]]></bpel:condition>
-            <bpel:empty name="Empty2"></bpel:empty>
-            <bpel:else>
-				<bpel:assign validate="no" name="setNoSuccessHotelRoom">
-                    <bpel:copy>
-                        <bpel:from>
-                            <bpel:literal xml:space="preserve">false</bpel:literal>
-                        </bpel:from>
-						<bpel:to variable="greatSuccess" />
-                    </bpel:copy>
-                </bpel:assign>
-            </bpel:else>
-        </bpel:if>
+		
+		
 		<bpel:if name="checkGreatSuccess">
-            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData($greatSuccess)]]></bpel:condition>
+            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData('greatSuccess') = true]]></bpel:condition>
+            <bpel:empty name="Empty3"></bpel:empty>
             <bpel:else>
 				<bpel:sequence>
-                    <bpel:if name="If"></bpel:if>
+                    <bpel:if name="FlightBookingUnsuccessful">
+                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData('FlightTicketWSbookFlightResponse', 'parameters', 'return')]]></bpel:condition>
+                        <bpel:sequence name="CancelFlight">
+                            
+                            
+				
+				
+    
+    
+    
+    
+                            <bpel:assign validate="no" name="AssignCancelInfo">
+                                
+                                
+                                
+                                <bpel:copy><bpel:from>
+                                        <bpel:literal xml:space="preserve"><ns:cancelBooking xmlns:ns="http://FlightTicket.Milestone1.SC13Project" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns:bookingID>ns:bookingID</ns:bookingID>
+</ns:cancelBooking>
+</bpel:literal>
+                                    </bpel:from>
+                                    <bpel:to part="parameters" variable="FlightTicketWSCancelRequest">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[flight:bookingID]]></bpel:query>
+                                    </bpel:to>
+                                
+                                </bpel:copy>
+                                <bpel:copy><bpel:from part="parameters" variable="FlightTicketWSbookFlightResponse">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[flight:return]]></bpel:query>
+                                    </bpel:from>
+                                    <bpel:to part="parameters" variable="FlightTicketWSCancelRequest">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[flight:bookingID]]></bpel:query>
+                                    </bpel:to>
+                                
+                                </bpel:copy>
+                            </bpel:assign>
+                            <bpel:invoke name="CancelFlightBooking" partnerLink="FlightTicketWS" operation="cancelBooking" portType="flight:FlightTicketImplPortType" inputVariable="FlightTicketWSCancelRequest"></bpel:invoke>
+                        </bpel:sequence>
+                    </bpel:if>
+                    <bpel:if name="ReturnFlightBookingUnsuccessful">
+                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData('FlightTicketWSbookReturnFlightResponse', 'parameters', 'return')]]></bpel:condition>
+                        <bpel:sequence name="CancelReturnFlight">
+				
+				
+    
+    
+    
+    
+    
+
+                            <bpel:assign validate="no" name="AssignCancelinfo2">
+                                
+                                
+                                <bpel:copy><bpel:from>
+                                        <bpel:literal xml:space="preserve"><ns:cancelBooking xmlns:ns="http://FlightTicket.Milestone1.SC13Project" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns:bookingID>ns:bookingID</ns:bookingID>
+</ns:cancelBooking>
+</bpel:literal>
+                                    </bpel:from>
+                                    <bpel:to part="parameters" variable="FlightTicketWSCancelRequest">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                            <![CDATA[flight:bookingID]]>
+                                        </bpel:query>
+                                    </bpel:to>
+                                
+                                </bpel:copy>
+                                <bpel:copy><bpel:from part="parameters" variable="FlightTicketWSbookReturnFlightResponse">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[flight:return]]></bpel:query>
+                                    </bpel:from>
+                                    <bpel:to part="parameters" variable="FlightTicketWSCancelRequest">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[flight:bookingID]]></bpel:query>
+                                    </bpel:to>
+                                
+                                </bpel:copy>
+                            </bpel:assign>
+                            <bpel:invoke name="CancelReturnFlightBooking" partnerLink="FlightTicketWS" operation="cancelBooking" portType="flight:FlightTicketImplPortType" inputVariable="FlightTicketWSCancelRequest"></bpel:invoke>
+                        </bpel:sequence>
+                    </bpel:if>
+                    <bpel:if name="HotelReservationUnsuccessful">
+                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData('HotelReservationWSbookRoomResponse', 'parameters', 'return')]]></bpel:condition>
+                        <bpel:sequence>
+                            <bpel:assign validate="no" name="AssignCancelInfo3">
+                                <bpel:copy>
+                                    <bpel:from><bpel:literal><ns:cancelBooking xmlns:ns="http://HotelReservation.Milestone1.SC13Project" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns:bookingID>ns:bookingID</ns:bookingID>
+</ns:cancelBooking>
+</bpel:literal></bpel:from>
+                                    <bpel:to variable="HotelReservationWSRequest" part="parameters"></bpel:to>
+                                </bpel:copy>
+                                <bpel:copy>
+                                    <bpel:from part="parameters" variable="HotelReservationWSbookRoomResponse">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[hotel:return]]></bpel:query>
+                                    </bpel:from>
+                                    <bpel:to part="parameters" variable="HotelReservationWSRequest">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[hotel:bookingID]]></bpel:query>
+                                    </bpel:to>
+                                </bpel:copy>
+                            </bpel:assign>
+                            <bpel:invoke name="CancelHotelReservation" partnerLink="HotelReservationWS" operation="cancelBooking" portType="hotel:HotelReservationImplPortType" inputVariable="HotelReservationWSRequest"></bpel:invoke>
+                        </bpel:sequence>
+                    </bpel:if>
                     <bpel:exit name="Exit" />
                 </bpel:sequence>
             </bpel:else>
