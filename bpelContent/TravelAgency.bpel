@@ -553,15 +553,26 @@
                 <bpel:to></bpel:to>
             </bpel:copy>
         </bpel:assign>
-        <bpel:invoke name="InvokeGetBooksByTitle" partnerLink="BookStoreWS" operation="getBooksByTitle" portType="ns0:BookStoreImplPortType" inputVariable="BookStoreWSRequest" outputVariable="BookStoreWSResponse"></bpel:invoke>
+        <bpel:invoke name="InvokeGetBooksByTitle" partnerLink="BookStoreWS" operation="getBooksByTitle" portType="books:BookStoreImplPortType" inputVariable="BookStoreWSRequest" outputVariable="BookStoreWSResponse"></bpel:invoke>
         <bpel:assign validate="no" name="AssignWarehouseQueryInputVariable">
             
             <bpel:copy>
-                <bpel:from part="parameters" variable="BookStoreWSResponse">
-                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns0:return[1]/xsd:resourceID]]></bpel:query>
+                <bpel:from><bpel:literal><ns:query xmlns:ns="http://Warehouse.Milestone1.SC13Project" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns:resourceID>ns:resourceID</ns:resourceID>
+</ns:query>
+</bpel:literal></bpel:from>
+                <bpel:to variable="WarehouseWSRequest" part="parameters"></bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from part="parameters" variable="BookStoreWSResponse">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[books:return[1]/xsdbook:resourceID]]>
+                    </bpel:query>
                 </bpel:from>
-                <bpel:to part="parameters" variable="WarehouseWSRequest">
-                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns1:resourceID]]></bpel:query>
+                <bpel:to part="parameters" variable="WarehouseWSRequest">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[ns1:resourceID]]>
+                    </bpel:query>
                 </bpel:to>
             </bpel:copy>
             
