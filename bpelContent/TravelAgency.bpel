@@ -502,7 +502,7 @@
             <bpel:else>
 				<bpel:sequence>
                     <bpel:if name="FlightBookingUnsuccessful">
-                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData('FlightTicketWSbookFlightResponse', 'parameters', 'return')]]></bpel:condition>
+                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[string-length(bpel:getVariableData('FlightTicketWSbookFlightResponse', 'parameters', 'return')) < 32]]></bpel:condition>
                         <bpel:sequence name="CancelFlight">
                             
                             
@@ -540,7 +540,7 @@
                         </bpel:sequence>
                     </bpel:if>
                     <bpel:if name="ReturnFlightBookingUnsuccessful">
-                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData('FlightTicketWSbookReturnFlightResponse', 'parameters', 'return')]]></bpel:condition>
+                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[string-length(bpel:getVariableData('FlightTicketWSbookReturnFlightResponse', 'parameters', 'return'))>32]]></bpel:condition>
                         <bpel:sequence name="CancelReturnFlight">
 				
 				
@@ -579,7 +579,7 @@
                         </bpel:sequence>
                     </bpel:if>
                     <bpel:if name="HotelReservationUnsuccessful">
-                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData('HotelReservationWSbookRoomResponse', 'parameters', 'return')]]></bpel:condition>
+                        <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[string-length(bpel:getVariableData('HotelReservationWSbookRoomResponse', 'parameters', 'return')) < 32]]></bpel:condition>
                         <bpel:sequence>
                             <bpel:assign validate="no" name="AssignCancelInfo3">
                                 <bpel:copy>
@@ -616,129 +616,7 @@
             </bpel:copy>
             <bpel:copy>
                 <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <![CDATA[bpel:concat(bpel:getVariableData($input.payload)/tns:destinationcity), '-guideline')]]>
+ 					<![CDATA[concat(bpel:getVariableData('input', 'payload', 'destinationcity'), '-guideline')]]>
                 </bpel:from>
                 <bpel:to part="parameters" variable="BookStoreWSRequest">
                     <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
@@ -780,7 +658,7 @@
         
         
         <bpel:if name="NoItemInWarehouse">
-            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData($WarehouseWSResponse.parameters)/ns1:return = 0]]></bpel:condition>
+            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[$WarehouseWSResponse.parameters/ns1:return = 0]]></bpel:condition>
             <bpel:sequence>
 				
 				<bpel:assign validate="no" name="AssignPaymentInputVariable" >
@@ -870,7 +748,110 @@
                             
                             
                             
-                            <![CDATA[bpel:getVariableData($BookStoreWSResponse.parameters)/books:return[1]/xsdbook:resourceID * 10]]>
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            <![CDATA[($BookStoreWSResponse.parameters/books:return[1]/xsdbooks:price) * 10]]>
                         </bpel:from>
                         <bpel:to part="parameters" variable="PaymentWSRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
