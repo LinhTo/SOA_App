@@ -2,7 +2,7 @@
 	by the Eclipse BPEL Designer] -->
 <!-- Date: Thu Dec 13 12:39:47 CET 2012 -->
 <bpel:process name="g33-TravelAgency"
-	targetNamespace="http://TravelAgency.Milestone3.SC13Project/"
+         targetNamespace="http://TravelAgency.Milestone3.SC13Project/"
 	suppressJoinFailure="yes" xmlns:tns="http://TravelAgency.Milestone3.SC13Project/"
 	xmlns:sns="http://Shipping.Milestone1.SC12Project" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
 	xmlns:ns1="http://Warehouse.Milestone1.SC13Project" xmlns:flight="http://FlightTicket.Milestone1.SC13Project"
@@ -11,7 +11,7 @@
 	xmlns:xsdflight="http://FlightTicket.Milestone1.SC13Project/xsd"
 	xmlns:xsdhotel="http://HotelReservation.Milestone1.SC13Project/xsd" xmlns:xsdbook="http://BookStore.Milestone1.SC13Project/xsd">
 
-	<!-- Import the client WSDL -->
+    <!-- Import the client WSDL -->
 	<bpel:import namespace="http://BookStore.Milestone1.SC13Project"
 		location="BookStoreImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" />
 	<bpel:import namespace="http://Warehouse.Milestone1.SC13Project"
@@ -24,21 +24,21 @@
 		location="HotelReservationImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" />
 	<bpel:import location="TravelAgencyArtifacts.wsdl"
 		namespace="http://TravelAgency.Milestone3.SC13Project/" importType="http://schemas.xmlsoap.org/wsdl/" />
-
-	<!-- Import the ShippingWS WSDL -->
-	<bpel:import importType="http://schemas.xmlsoap.org/wsdl/"
+    
+    <!-- Import the ShippingWS WSDL --> 
+    <bpel:import importType="http://schemas.xmlsoap.org/wsdl/"
 		location="ShippingWS.wsdl" namespace="http://Shipping.Milestone1.SC12Project" />
+         
+    <!-- ================================================================= -->         
+    <!-- PARTNERLINKS                                                      -->
+    <!-- List of services participating in this BPEL process               -->
+    <!-- ================================================================= -->         
 
-	<!-- ================================================================= -->
-	<!-- PARTNERLINKS -->
-	<!-- List of services participating in this BPEL process -->
-	<!-- ================================================================= -->
-
-	<bpel:partnerLinks>
-		<!-- The 'client' role represents the requester of this service. -->
+    <bpel:partnerLinks>
+        <!-- The 'client' role represents the requester of this service. -->
 		<bpel:partnerLink name="client" partnerLinkType="tns:TravelAgency"
 			myRole="TravelAgencyProvider" />
-
+        
 		<bpel:partnerLink name="PaymentWS" partnerLinkType="tns:PaymentLT"
 			partnerRole="paymentService" />
 		<bpel:partnerLink name="WarehouseWS" partnerLinkType="tns:WarehouseLT"
@@ -51,24 +51,24 @@
 			partnerLinkType="tns:HotelReservationLT" partnerRole="hotelReservationService" />
         <bpel:partnerLink name="ShipperWS" partnerLinkType="sns:ShippingWSLT" partnerRole="ShippingWSProvider"></bpel:partnerLink>
     </bpel:partnerLinks>
+  
+    <!-- ================================================================= -->         
+    <!-- VARIABLES                                                         -->
+    <!-- List of messages and XML documents used within this BPEL process  -->
+    <!-- ================================================================= -->         
 
-	<!-- ================================================================= -->
-	<!-- VARIABLES -->
-	<!-- List of messages and XML documents used within this BPEL process -->
-	<!-- ================================================================= -->
-
-	<bpel:variables>
-		<!-- Reference to the message passed as input during initiation -->
+    <bpel:variables>
+        <!-- Reference to the message passed as input during initiation -->
 		<bpel:variable name="input" messageType="tns:TravelAgencyRequestMessage" />
-
+                  
 		<!-- Reference to the message that will be returned to the requester -->
 		<bpel:variable name="output" messageType="tns:TravelAgencyResponseMessage" />
-
+          
 		<bpel:variable name="shippingInput" messageType="sns:shippingRequest" />
 		<bpel:variable name="shippingOutput" messageType="sns:shippingResponse" />
-
+        
 		<bpel:variable name="inputDate" messageType="tns:InputDateMessage" />
-
+                            
 		<bpel:variable name="PaymentWSResponse" messageType="payment:transferResponse" />
 		<bpel:variable name="PaymentWSRequest" messageType="payment:transferRequest" />
 		<bpel:variable name="BookStoreWSResponse" messageType="books:getBooksByTitleResponse" />
@@ -105,24 +105,24 @@
 			messageType="hotel:bookRoomRequest" />
 		<bpel:variable name="inputReturnDate" messageType="tns:InputDateMessage" />
 		<bpel:variable name="greatSuccess" type="ns:boolean">
-			<bpel:from>
-				<bpel:literal xml:space="preserve">false</bpel:literal>
-			</bpel:from>
-		</bpel:variable>
-	</bpel:variables>
+            <bpel:from>
+                <bpel:literal xml:space="preserve">false</bpel:literal>
+            </bpel:from>
+        </bpel:variable>
+    </bpel:variables>
 
-	<!-- ================================================================= -->
-	<!-- ORCHESTRATION LOGIC -->
-	<!-- Set of activities coordinating the flow of messages across the -->
-	<!-- services integrated within this business process -->
-	<!-- ================================================================= -->
-
+    <!-- ================================================================= -->         
+    <!-- ORCHESTRATION LOGIC                                               -->
+    <!-- Set of activities coordinating the flow of messages across the    -->
+    <!-- services integrated within this business process                  -->
+    <!-- ================================================================= -->         
+        
 	<bpel:sequence name="main"><!-- Receive input from requester. Note: 
 			This maps to operation defined in TravelAgency.wsdl -->
 		<bpel:receive name="receiveInput" partnerLink="client"
 			portType="tns:TravelAgency" operation="process" variable="input"
 			createInstance="yes" />
-		<bpel:assign name="doXslTranform1">
+        <bpel:assign name="doXslTranform1">
             <bpel:copy>
                 <bpel:from><bpel:literal><tns:InputDate xmlns:tns="http://TravelAgency.Milestone3.SC13Project/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <tns:date>0</tns:date>
@@ -137,43 +137,43 @@
 					<bpel:literal>
 						<tns:InputDate xmlns:tns="http://TravelAgency.Milestone3.SC13Project/"
 							xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-							<tns:date>0</tns:date>
-							<tns:month>0</tns:month>
-							<tns:year>0</tns:year>
-						</tns:InputDate>
+  <tns:date>0</tns:date>
+  <tns:month>0</tns:month>
+  <tns:year>0</tns:year>
+</tns:InputDate>
 					</bpel:literal>
 				</bpel:from>
 				<bpel:to variable="inputReturnDate" part="payload" />
-			</bpel:copy>
-			
-			
-			
-            
-            
+            </bpel:copy>
+                    
+                    
+                    
+                    
+                    
             <bpel:copy>
                 <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:doXslTransform("SimpleTransform.xsl", $input.payload)]]>
-				
+                    
                 </bpel:from><bpel:to part="payload" variable="inputDate"/>
-			
-            
+                    
+                    
             </bpel:copy>
             <bpel:copy>
                 <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:doXslTransform("SimpleTransformReturnDate.xsl", $input.payload)]]>
-				
+                    
                 </bpel:from><bpel:to part="payload" variable="inputReturnDate"/>
-			
-            
+                    
+                    
             </bpel:copy>
-            
-        </bpel:assign>
-		<bpel:assign validate="no" name="AssignBookingInputVariables">
+                    
+        </bpel:assign>                              
+        <bpel:assign validate="no" name="AssignBookingInputVariables">
 			<bpel:documentation source="" xml:lang="Deutsch (Deutschland)">        
                 <![CDATA[Assignments 	1-3 betreffen den Hinflug
 				4-6 den Rueckflug
 				7-9 den check-in im Hotel
 				10-12 den check-out]]>
 			</bpel:documentation>
-			<bpel:copy>
+            <bpel:copy>
 				<bpel:from part="payload" variable="input">
                     <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                         <![CDATA[tns:departurecity]]>
@@ -264,12 +264,12 @@
 					operation="getFlightInfo" portType="flight:FlightTicketImplPortType"
 					outputVariable="FlightTicketWSgetFlightInfoResponse" inputVariable="FlightTicketWSgetFlightInfoRequest" />
 				<bpel:assign validate="no" name="assignBookingInfo">
-					<bpel:copy>
+            <bpel:copy>
 						<bpel:from part="parameters" variable="FlightTicketWSgetFlightInfoResponse">
-                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:return[1]/xsdflight:flightNo]]>
-                            </bpel:query>
-                        </bpel:from>
+                    </bpel:query>
+                </bpel:from>
 						<bpel:to part="parameters" variable="FlightTicketWSbookFlightRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:flightNumber]]>
@@ -284,42 +284,42 @@
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:date/xsdflight:date]]>
                             </bpel:query>
-                        </bpel:to>
-					</bpel:copy>
-					<bpel:copy>
+                </bpel:to>
+            </bpel:copy>
+            <bpel:copy>
 						<bpel:from part="payload" variable="inputDate">
-                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-                                <![CDATA[tns:month]]>
-                            </bpel:query>
-                        </bpel:from>
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[tns:month]]>
+                    </bpel:query>
+                </bpel:from>
 						<bpel:to part="parameters" variable="FlightTicketWSbookFlightRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:date/xsdflight:month]]>
                             </bpel:query>
-                        </bpel:to>
-					</bpel:copy>
-					<bpel:copy>
+                </bpel:to>
+            </bpel:copy>
+            <bpel:copy>
 						<bpel:from part="payload" variable="inputDate">
-                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-                                <![CDATA[tns:year]]>
-                            </bpel:query>
-                        </bpel:from>
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[tns:year]]>
+                    </bpel:query>
+                </bpel:from>
 						<bpel:to part="parameters" variable="FlightTicketWSbookFlightRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:date/xsdflight:year]]>
                             </bpel:query>
-                        </bpel:to>
-					</bpel:copy>
-					<bpel:copy>
+                </bpel:to>
+            </bpel:copy>
+                    <bpel:copy>
 						<bpel:from>
 							<bpel:literal xml:space="preserve">1</bpel:literal>
-						</bpel:from>
-						<bpel:to part="parameters" variable="FlightTicketWSbookFlightRequest">
+                        </bpel:from>
+                        <bpel:to part="parameters" variable="FlightTicketWSbookFlightRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:seats]]>
                             </bpel:query>
                         </bpel:to>
-					</bpel:copy>
+                    </bpel:copy>
 				</bpel:assign>
 				<bpel:invoke name="InvokeBookFlight" partnerLink="FlightTicketWS"
 					operation="bookFlight" portType="flight:FlightTicketImplPortType"
@@ -331,10 +331,10 @@
 					outputVariable="FlightTicketWSgetReturnFlightInfoResponse"
 					inputVariable="FlightTicketWSgetReturnFlightInfoRequest" />
 				<bpel:assign validate="no" name="AssignBookingInfo">
-					<bpel:copy>
+                    <bpel:copy>
 						<bpel:from part="payload" variable="inputReturnDate">
-							<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:date]]></bpel:query>
-						</bpel:from>
+                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:date]]></bpel:query>
+                        </bpel:from>
 						<bpel:to part="parameters" variable="FlightTicketWSbookReturnFlightRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:date/xsdflight:date]]>
@@ -352,20 +352,20 @@
                                 <![CDATA[flight:date/xsdflight:month]]>
                             </bpel:query>
                         </bpel:to>
-					</bpel:copy>
-					<bpel:copy>
+                    </bpel:copy>
+                    <bpel:copy>
 						<bpel:from part="payload" variable="inputReturnDate">
 							<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[tns:year]]>
 							</bpel:query>
-						</bpel:from>
+                        </bpel:from>
 						<bpel:to part="parameters" variable="FlightTicketWSbookReturnFlightRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:date/xsdflight:year]]>
                             </bpel:query>
                         </bpel:to>
-					</bpel:copy>
-					<bpel:copy>
+                    </bpel:copy>
+                    <bpel:copy>
 						<bpel:from part="parameters" variable="FlightTicketWSgetReturnFlightInfoResponse">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:return[1]/xsdflight:flightNo]]>
@@ -376,43 +376,43 @@
                                 <![CDATA[flight:flightNumber]]>
                             </bpel:query>
                         </bpel:to>
-					</bpel:copy>
-					<bpel:copy>
-						<bpel:from>
-							<bpel:literal xml:space="preserve">1</bpel:literal>
-						</bpel:from>
+                    </bpel:copy>
+                    <bpel:copy>
+                        <bpel:from>
+                            <bpel:literal xml:space="preserve">1</bpel:literal>
+                        </bpel:from>
 						<bpel:to part="parameters" variable="FlightTicketWSbookReturnFlightRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[flight:seats]]>
                             </bpel:query>
                         </bpel:to>
-					</bpel:copy>
-				</bpel:assign>
+                    </bpel:copy>
+                </bpel:assign>
 				<bpel:invoke name="InvokeBookFlight" partnerLink="FlightTicketWS"
 					operation="bookFlight" portType="flight:FlightTicketImplPortType"
 					inputVariable="FlightTicketWSbookFlightRequest" outputVariable="FlightTicketWSbookFlightResponse" />
 			</bpel:sequence>
             <bpel:sequence name="reserveHotelRoom"><bpel:invoke name="InvokeGetAvailableRooms" partnerLink="HotelReservationWS" operation="getAvailableRooms" portType="hotel:HotelReservationImplPortType" inputVariable="HotelReservationWSgetAvailableRoomsRequest" outputVariable="HotelReservationWSgetAvailableRoomsResponse" />
-				<bpel:assign validate="no" name="assignReservationInfo">
+                <bpel:assign validate="no" name="assignReservationInfo">
                     <bpel:copy>
                         <bpel:from>
                         	<bpel:literal>
 		                        <ns:bookRoom xmlns:ns="http://HotelReservation.Milestone1.SC13Project" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-		  							<ns:type>ns:type</ns:type>
-		  							<ns:amount>0</ns:amount>
-									<ns:period>
-										<checkin>
-											<date>0</date>
-											<month>0</month>
-											<year>0</year>
-										</checkin>
-										<checkout>
-											<date>0</date>
-											<month>0</month>
-											<year>0</year>
-										</checkout>
-									</ns:period>
-								</ns:bookRoom>
+  <ns:type>ns:type</ns:type>
+  <ns:amount>0</ns:amount>
+  <ns:period>
+    <checkin>
+      <date>0</date>
+      <month>0</month>
+      <year>0</year>
+    </checkin>
+    <checkout>
+      <date>0</date>
+      <month>0</month>
+      <year>0</year>
+    </checkout>
+  </ns:period>
+</ns:bookRoom>
 							</bpel:literal>
 						</bpel:from>
                         <bpel:to variable="HotelReservationWSbookRoomRequest" part="parameters"></bpel:to>
@@ -492,15 +492,16 @@
             <bpel:empty name="Empty"></bpel:empty>
             <bpel:else>
 				<bpel:assign validate="no" name="setNoSuccessFlight">
-					<bpel:copy>
-						<bpel:from>
-							<bpel:literal xml:space="preserve">false</bpel:literal>
-						</bpel:from>
+                    <bpel:copy>
+                        <bpel:from>
+                            <bpel:literal xml:space="preserve">false</bpel:literal>
+                        </bpel:from>
 						<bpel:to variable="greatSuccess"/>
-					</bpel:copy>
-				</bpel:assign>
-			</bpel:else>
-		</bpel:if>
+                    </bpel:copy>
+                </bpel:assign>
+            </bpel:else>
+        
+        </bpel:if>
 		<bpel:if name="checkReturnFlight">
             <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData($FlightTicketWSbookReturnFlightResponse.parameters)/flight:return = "true"]]></bpel:condition>
             <bpel:empty name="Empty1"></bpel:empty>
@@ -512,29 +513,30 @@
 						</bpel:from>
 						<bpel:to variable="greatSuccess" />
 					</bpel:copy>
-					<bpel:copy>
-						<bpel:from>
-							<bpel:literal xml:space="preserve">false</bpel:literal>
-						</bpel:from>
+                    <bpel:copy>
+                        <bpel:from>
+                            <bpel:literal xml:space="preserve">false</bpel:literal>
+                        </bpel:from>
 						<bpel:to variable="greatSuccess" />
-					</bpel:copy>
-				</bpel:assign>
-			</bpel:else>
-		</bpel:if>
+                    </bpel:copy>
+                </bpel:assign>
+            </bpel:else>
+        
+        </bpel:if>
 		<bpel:if name="checkHotelBooking">
             <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData($HotelReservationWSbookRoomResponse.parameters)/hotel:return = "true"]]></bpel:condition>
             <bpel:empty name="Empty2"></bpel:empty>
             <bpel:else>
 				<bpel:assign validate="no" name="setNoSuccessHotelRoom">
-					<bpel:copy>
-						<bpel:from>
-							<bpel:literal xml:space="preserve">false</bpel:literal>
-						</bpel:from>
+                    <bpel:copy>
+                        <bpel:from>
+                            <bpel:literal xml:space="preserve">false</bpel:literal>
+                        </bpel:from>
 						<bpel:to variable="greatSuccess" />
-					</bpel:copy>
-				</bpel:assign>
-			</bpel:else>
-		</bpel:if>
+                    </bpel:copy>
+                </bpel:assign>
+            </bpel:else>
+        </bpel:if>
 		<bpel:if name="checkGreatSuccess">
             <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[bpel:getVariableData($greatSuccess)]]></bpel:condition>
             <bpel:else>
@@ -542,34 +544,37 @@
                     <bpel:if name="If"></bpel:if>
                     <bpel:exit name="Exit" />
                 </bpel:sequence>
-			</bpel:else>
-		</bpel:if>
-		<bpel:assign validate="no" name="AssignBookStoreInputVariable">
-			<bpel:copy>
-				<bpel:from></bpel:from>
-				<bpel:to></bpel:to>
-			</bpel:copy>
-		</bpel:assign>
-		<bpel:invoke name="InvokeGetBooksByTitle" partnerLink="BookStoreWS"
-			operation="getBooksByTitle" portType="books:BookStoreImplPortType"
-			inputVariable="BookStoreWSRequest" outputVariable="BookStoreWSResponse" />
-		<bpel:assign validate="no" name="AssignWarehouseQueryInputVariable">
-			<bpel:copy>
-				<bpel:from part="parameters" variable="BookStoreWSResponse">
-                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-                        <![CDATA[books:return[1]/xsdbook:resourceID]]>
-                    </bpel:query>
+            </bpel:else>
+        
+        </bpel:if>
+        <bpel:assign validate="no" name="AssignBookStoreInputVariable">
+            <bpel:copy>
+                <bpel:from></bpel:from>
+                <bpel:to></bpel:to>
+            </bpel:copy>
+        </bpel:assign>
+        <bpel:invoke name="InvokeGetBooksByTitle" partnerLink="BookStoreWS" operation="getBooksByTitle" portType="ns0:BookStoreImplPortType" inputVariable="BookStoreWSRequest" outputVariable="BookStoreWSResponse"></bpel:invoke>
+        <bpel:assign validate="no" name="AssignWarehouseQueryInputVariable">
+            
+            <bpel:copy>
+                <bpel:from part="parameters" variable="BookStoreWSResponse">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns0:return[1]/xsd:resourceID]]></bpel:query>
                 </bpel:from>
-				<bpel:to part="parameters" variable="WarehouseWSRequest">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns1:resourceID]]></bpel:query>
-				</bpel:to>
-			</bpel:copy>
-		</bpel:assign>
-		<bpel:invoke name="InvokeWarehouseQuery" partnerLink="WarehouseWS"
-			operation="query" portType="ns1:WarehouseImplPortType" inputVariable="WarehouseWSRequest"
-			outputVariable="WarehouseWSResponse" />
-		<bpel:if name="NoItemInWarehouse">
-			<bpel:sequence>
+                <bpel:to part="parameters" variable="WarehouseWSRequest">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns1:resourceID]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+            
+        </bpel:assign>
+        <bpel:invoke name="InvokeWarehouseQuery" partnerLink="WarehouseWS" operation="query" portType="ns1:WarehouseImplPortType" inputVariable="WarehouseWSRequest" outputVariable="WarehouseWSResponse"></bpel:invoke>
+        
+        
+        
+        
+        
+        
+        <bpel:if name="NoItemInWarehouse">
+            <bpel:sequence>
 				<bpel:assign validate="no" name="CalculatePrice" />
 				<bpel:assign validate="no" name="AssignPaymentInputVariable" />
 				<bpel:invoke name="InvokePayment" partnerLink="PaymentWS"
@@ -577,18 +582,18 @@
 					inputVariable="PaymentWSRequest" outputVariable="PaymentWSResponse" />
 				<bpel:assign validate="no"
 					name="AssignComplementStockInputVariable">
-					<bpel:copy>
+                    <bpel:copy>
 						<bpel:from>
 							<bpel:literal>
 								<ns:complementStock xmlns:ns="http://Warehouse.Milestone1.SC13Project"
 									xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-									<ns:resourceID>ns:resourceID</ns:resourceID>
-									<ns:amount>0</ns:amount>
-								</ns:complementStock>
+  <ns:resourceID>ns:resourceID</ns:resourceID>
+  <ns:amount>0</ns:amount>
+</ns:complementStock>
 							</bpel:literal>
 						</bpel:from>
 						<bpel:to variable="WarehouseWSRequest1" part="parameters" />
-					</bpel:copy>
+                    </bpel:copy>
 					<bpel:copy>
 						<bpel:from>
 							<bpel:literal xml:space="preserve"><ns:complementStock
@@ -597,39 +602,41 @@
   <ns:amount>10</ns:amount>
 </ns:complementStock>
 </bpel:literal>
-						</bpel:from>
-						<bpel:to part="parameters" variable="WarehouseWSRequest1">
-						</bpel:to>
+                        </bpel:from>
+                        <bpel:to part="parameters" variable="WarehouseWSRequest1">
+
+                        </bpel:to>
 					</bpel:copy>
 					<bpel:copy>
-						<bpel:from part="parameters" variable="BookStoreWSResponse">
+						<bpel:from part="parameters" variable="BookStoreWSResponse">
+                    
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                                 <![CDATA[books:return[1]/xsdbook:resourceID]]>
                             </bpel:query>
                         </bpel:from>
-						<bpel:to part="parameters" variable="WarehouseWSRequest1">
-							<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns1:resourceID]]></bpel:query>
-						</bpel:to>
-					</bpel:copy>
-				</bpel:assign>
+                        <bpel:to part="parameters" variable="WarehouseWSRequest1">
+                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns1:resourceID]]></bpel:query>
+                        </bpel:to>
+                    </bpel:copy>
+                </bpel:assign>
 				<bpel:invoke name="InvokeComlementStock" partnerLink="WarehouseWS"
 					operation="complementStock" portType="ns1:WarehouseImplPortType"
 					inputVariable="WarehouseWSRequest1" outputVariable="WarehouseWSResponse1" />
-			</bpel:sequence>
-		</bpel:if>
-		<bpel:assign validate="no" name="AssignPickUpItemInputVariable">
-			<bpel:copy>
+            </bpel:sequence>
+        </bpel:if>
+        <bpel:assign validate="no" name="AssignPickUpItemInputVariable">
+            <bpel:copy>
 				<bpel:from>
 					<bpel:literal>
 						<ns:pickupItems xmlns:ns="http://Warehouse.Milestone1.SC13Project"
 							xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-							<ns:resourceID>ns:resourceID</ns:resourceID>
-							<ns:amount>0</ns:amount>
-						</ns:pickupItems>
+  <ns:resourceID>ns:resourceID</ns:resourceID>
+  <ns:amount>0</ns:amount>
+</ns:pickupItems>
 					</bpel:literal>
 				</bpel:from>
 				<bpel:to variable="WarehouseWSRequest2" part="parameters" />
-			</bpel:copy>
+            </bpel:copy>
 			<bpel:copy>
 				<bpel:from>
 					<bpel:literal xml:space="preserve"><ns:pickupItems
@@ -638,43 +645,45 @@
   <ns:amount>1</ns:amount>
 </ns:pickupItems>
 </bpel:literal>
-				</bpel:from>
-				<bpel:to part="parameters" variable="WarehouseWSRequest2">
-				</bpel:to>
+                </bpel:from>
+                <bpel:to part="parameters" variable="WarehouseWSRequest2">
+
+                </bpel:to>
 			</bpel:copy>
 			<bpel:copy>
-				<bpel:from part="parameters" variable="BookStoreWSResponse">
+				<bpel:from part="parameters" variable="BookStoreWSResponse">
+            
                     <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                         <![CDATA[books:return[1]/xsdbook:resourceID]]>
                     </bpel:query>
                 </bpel:from>
-				<bpel:to part="parameters" variable="WarehouseWSRequest2">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns1:resourceID]]></bpel:query>
-				</bpel:to>
-			</bpel:copy>
-		</bpel:assign>
+                <bpel:to part="parameters" variable="WarehouseWSRequest2">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns1:resourceID]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+        </bpel:assign>
 		<bpel:invoke name="InvokePickUpItem" partnerLink="WarehouseWS"
 			operation="pickupItems" portType="ns1:WarehouseImplPortType"
 			inputVariable="WarehouseWSRequest2" outputVariable="WarehouseWSResponse2" />
-		<bpel:assign validate="no" name="AssignShippingInputVariable">
-			<bpel:copy>
-				<bpel:from>
-					<bpel:literal xml:space="preserve">
+        <bpel:assign validate="no" name="AssignShippingInputVariable">
+            <bpel:copy>
+                <bpel:from>
+                    <bpel:literal xml:space="preserve">
                         <ns:shipping
 						xmlns:ns="http://Shipping.Milestone1.SC12Project" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                              <ns:resourceID>123</ns:resourceID>
                              <ns:address>Garching</ns:address>
                         </ns:shipping>
                     </bpel:literal>
-				</bpel:from>
+                </bpel:from>
 				<bpel:to part="parameters" variable="shippingInput" />
-			</bpel:copy>
-		</bpel:assign>
+            </bpel:copy>
+        </bpel:assign>
 		<bpel:invoke name="InvokeShippingWS" partnerLink="ShipperWS" operation="shipping" portType="sns:ShippingWSPortType" inputVariable="shippingInput" outputVariable="shippingOutput"/>
-		<bpel:assign validate="no" name="AssignOutput">
-			<bpel:copy>
-				<bpel:from>
-					<bpel:literal xml:space="preserve">
+        <bpel:assign validate="no" name="AssignOutput">
+            <bpel:copy>
+                <bpel:from>
+                    <bpel:literal xml:space="preserve">
                           <tns:TravelAgencyResponse
 						xmlns:tns="http://TravelAgency.Milestone3.SC13Project/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <tns:successful>false</tns:successful>
@@ -685,43 +694,43 @@
                                 <tns:year />
                           </tns:TravelAgencyResponse>
                     </bpel:literal>
-				</bpel:from>
+                </bpel:from>
 				<bpel:to part="payload" variable="output"/>
-			</bpel:copy>
-			<bpel:copy>
+            </bpel:copy>
+            <bpel:copy>
 				<bpel:from part="parameters" variable="shippingOutput">
                     <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[sns:return]]></bpel:query>
                 </bpel:from>
-				<bpel:to part="payload" variable="output">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:shippingID]]></bpel:query>
-				</bpel:to>
-			</bpel:copy>
-			<bpel:copy>
-				<bpel:from part="payload" variable="inputDate">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:date]]></bpel:query>
-				</bpel:from>
-				<bpel:to part="payload" variable="output">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:date]]></bpel:query>
-				</bpel:to>
-			</bpel:copy>
-			<bpel:copy>
-				<bpel:from part="payload" variable="inputDate">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:month]]></bpel:query>
-				</bpel:from>
-				<bpel:to part="payload" variable="output">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:month]]></bpel:query>
-				</bpel:to>
-			</bpel:copy>
-			<bpel:copy>
-				<bpel:from part="payload" variable="inputDate">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:year]]></bpel:query>
-				</bpel:from>
-				<bpel:to part="payload" variable="output">
-					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:year]]></bpel:query>
-				</bpel:to>
-			</bpel:copy>
-		</bpel:assign>
+                <bpel:to part="payload" variable="output">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:shippingID]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from part="payload" variable="inputDate">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:date]]></bpel:query>
+                </bpel:from>
+                <bpel:to part="payload" variable="output">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:date]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from part="payload" variable="inputDate">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:month]]></bpel:query>
+                </bpel:from>
+                <bpel:to part="payload" variable="output">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:month]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from part="payload" variable="inputDate">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:year]]></bpel:query>
+                </bpel:from>
+                <bpel:to part="payload" variable="output">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:year]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+        </bpel:assign>        
 		<bpel:reply name="replyOutput" partnerLink="client"
 			portType="tns:TravelAgency" operation="process" variable="output" />
-	</bpel:sequence>
+    </bpel:sequence>
 </bpel:process>
