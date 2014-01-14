@@ -5,7 +5,7 @@
          suppressJoinFailure="yes"
          xmlns:tns="http://TravelAgency.Milestone3.SC13Project/"
          xmlns:sns="http://Shipping.Milestone1.SC12Project" 
-         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns="http://FlightTicket.Milestone1.SC13Project" xmlns:ns0="http://HotelReservation.Milestone1.SC13Project" xmlns:xsd="http://HotelReservation.Milestone1.SC13Project/xsd" xmlns:newns="http://FlightTicket.Milestone1.SC13Project/xsd" xmlns:ns1="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://Payment.Milestone1.SC13Project" xmlns:ns0="http://BookStore.Milestone1.SC13Project" xmlns:ns1="http://Warehouse.Milestone1.SC13Project" xmlns:xsd="http://BookStore.Milestone1.SC13Project/xsd">
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns="http://Payment.Milestone1.SC13Project" xmlns:ns0="http://BookStore.Milestone1.SC13Project" xmlns:xsd="http://BookStore.Milestone1.SC13Project/xsd" xmlns:newns="http://FlightTicket.Milestone1.SC13Project/xsd" xmlns:ns1="http://Warehouse.Milestone1.SC13Project" xmlns:ns="http://Payment.Milestone1.SC13Project" xmlns:ns0="http://BookStore.Milestone1.SC13Project" xmlns:ns1="http://Warehouse.Milestone1.SC13Project" xmlns:xsd="http://BookStore.Milestone1.SC13Project/xsd">
 
     <!-- Import the client WSDL -->
     <bpel:import namespace="http://BookStore.Milestone1.SC13Project" location="BookStoreImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"></bpel:import>
@@ -493,6 +493,52 @@
         
         
         
+        <bpel:if name="checkFlight"><bpel:else>
+                <bpel:assign validate="no" name="setNoSuccess">
+                    <bpel:copy>
+                        <bpel:from>
+                            <bpel:literal xml:space="preserve">false</bpel:literal>
+                        </bpel:from>
+                        <bpel:to variable="greatSuccess">
+                        </bpel:to>
+                    </bpel:copy>
+                </bpel:assign>
+            </bpel:else>
+        
+        </bpel:if>
+        <bpel:if name="checkReturnFlight"><bpel:else>
+                <bpel:assign validate="no" name="setNoSuccess">
+                    
+    
+                    <bpel:copy>
+                        <bpel:from>
+                            <bpel:literal xml:space="preserve">false</bpel:literal>
+                        </bpel:from>
+                        <bpel:to variable="greatSuccess"></bpel:to>
+                    </bpel:copy>
+                </bpel:assign>
+            </bpel:else>
+        
+        </bpel:if>
+        <bpel:if name="checkHotelBooking"><bpel:else>
+                <bpel:assign validate="no" name="setNoSuccess">
+                    
+    
+                    <bpel:copy>
+                        <bpel:from>
+                            <bpel:literal xml:space="preserve">false</bpel:literal>
+                        </bpel:from>
+                        <bpel:to variable="greatSuccess"></bpel:to>
+                    </bpel:copy>
+                </bpel:assign>
+            </bpel:else>
+        
+        </bpel:if>
+        <bpel:if name="checkGreatSuccess"><bpel:else>
+                <bpel:exit name="Exit"></bpel:exit>
+            </bpel:else>
+        
+        </bpel:if>
         <bpel:assign validate="no" name="AssignBookStoreInputVariable">
             <bpel:copy>
                 <bpel:from></bpel:from>
@@ -513,53 +559,11 @@
             
         </bpel:assign>
         <bpel:invoke name="InvokeWarehouseQuery" partnerLink="WarehouseWS" operation="query" portType="ns1:WarehouseImplPortType" inputVariable="WarehouseWSRequest" outputVariable="WarehouseWSResponse"></bpel:invoke>
-        <bpel:if name="checkFlight">
-            <bpel:else>
-                <bpel:assign validate="no" name="setNoSuccess">
-                    <bpel:copy>
-                        <bpel:from>
-                            <bpel:literal xml:space="preserve">false</bpel:literal>
-                        </bpel:from>
-                        <bpel:to variable="greatSuccess">
-                        </bpel:to>
-                    </bpel:copy>
-                </bpel:assign>
-            </bpel:else>
-        </bpel:if>
-        <bpel:if name="checkReturnFlight">
-            <bpel:else>
-                <bpel:assign validate="no" name="setNoSuccess">
-                    
-    
-                    <bpel:copy>
-                        <bpel:from>
-                            <bpel:literal xml:space="preserve">false</bpel:literal>
-                        </bpel:from>
-                        <bpel:to variable="greatSuccess"></bpel:to>
-                    </bpel:copy>
-                </bpel:assign>
-            </bpel:else>
-        </bpel:if>
         
-        <bpel:if name="checkHotelBooking">
-            <bpel:else>
-                <bpel:assign validate="no" name="setNoSuccess">
-                    
-    
-                    <bpel:copy>
-                        <bpel:from>
-                            <bpel:literal xml:space="preserve">false</bpel:literal>
-                        </bpel:from>
-                        <bpel:to variable="greatSuccess"></bpel:to>
-                    </bpel:copy>
-                </bpel:assign>
-            </bpel:else>
-        </bpel:if>
-        <bpel:if name="checkGreatSuccess">
-            <bpel:else>
-                <bpel:exit name="Exit"></bpel:exit>
-            </bpel:else>
-        </bpel:if>
+        
+        
+        
+        
         
         
         
