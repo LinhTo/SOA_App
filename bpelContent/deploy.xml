@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" 
-        xmlns:ns="http://TravelAgency.Milestone3.SC13Project/"
-        xmlns:shipping="http://Shipping.Milestone1.SC12Project">
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:ns="http://TravelAgency.Milestone3.SC13Project/">
   <process name="ns:g33-TravelAgency">
     <active>true</active>
     <retired>false</retired>
@@ -9,8 +7,5 @@
     <provide partnerLink="client">
       <service name="ns:g33-TravelAgencyService" port="TravelAgencyPort"/>
     </provide>
-    <invoke partnerLink="ShipperWS">
-      <service name="shipping:ShippingWS" port="ShippingWSHttpSoap11Endpoint"/>
-    </invoke>
   </process>
 </deploy>

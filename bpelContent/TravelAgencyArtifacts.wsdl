@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://TravelAgency.Milestone3.SC13Project/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://FlightTicket.Milestone1.SC13Project" xmlns:wsdl1="http://HotelReservation.Milestone1.SC13Project" xmlns:wsdl="http://Payment.Milestone1.SC13Project" xmlns:wsdl1="http://Warehouse.Milestone1.SC13Project" xmlns:wsdl2="http://BookStore.Milestone1.SC13Project" name="g33-TravelAgency" targetNamespace="http://TravelAgency.Milestone3.SC13Project/">
+<definitions 
+xmlns="http://schemas.xmlsoap.org/wsdl/" 
+xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" 
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:tns="http://TravelAgency.Milestone3.SC13Project/" 
+xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" 
+xmlns:wsdlf="http://FlightTicket.Milestone1.SC13Project" 
+xmlns:wsdlh="http://HotelReservation.Milestone1.SC13Project" 
+xmlns:wsdlp="http://Payment.Milestone1.SC13Project" 
+xmlns:wsdlw="http://Warehouse.Milestone1.SC13Project" 
+xmlns:wsdlb="http://BookStore.Milestone1.SC13Project" 
+name="g33-TravelAgency" 
+targetNamespace="http://TravelAgency.Milestone3.SC13Project/">
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      TYPE DEFINITION - List of types participating in this BPEL process 
@@ -8,22 +20,22 @@
      of the message types.
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
     <plnk:partnerLinkType name="PaymentLT">
-    <plnk:role name="paymentService" portType="wsdl:PaymentImplPortType"/>
+    <plnk:role name="paymentService" portType="wsdlp:PaymentImplPortType"/>
   </plnk:partnerLinkType>
     <plnk:partnerLinkType name="WarehouseLT">
-    <plnk:role name="warehouseService" portType="wsdl1:WarehouseImplPortType"/>
+    <plnk:role name="warehouseService" portType="wsdlw:WarehouseImplPortType"/>
   </plnk:partnerLinkType>
     <plnk:partnerLinkType name="BookStoreLT">
-    <plnk:role name="bookStoreService" portType="wsdl2:BookStoreImplPortType"/>
+    <plnk:role name="bookStoreService" portType="wsdlb:BookStoreImplPortType"/>
   </plnk:partnerLinkType>
     <import location="PaymentImpl.wsdl" namespace="http://Payment.Milestone1.SC13Project"/>
     <import location="WarehouseImpl.wsdl" namespace="http://Warehouse.Milestone1.SC13Project"/>
     <import location="BookStoreImpl.wsdl" namespace="http://BookStore.Milestone1.SC13Project"/>
     <plnk:partnerLinkType name="FlightTicketLT">
-    <plnk:role name="flightTicketService" portType="wsdl:FlightTicketImplPortType"/>
+    <plnk:role name="flightTicketService" portType="wsdlf:FlightTicketImplPortType"/>
   </plnk:partnerLinkType>
     <plnk:partnerLinkType name="HotelReservationLT">
-    <plnk:role name="hotelReservationService" portType="wsdl1:HotelReservationImplPortType"/>
+    <plnk:role name="hotelReservationService" portType="wsdlh:HotelReservationImplPortType"/>
   </plnk:partnerLinkType>
     <import location="FlightTicketImpl.wsdl" namespace="http://FlightTicket.Milestone1.SC13Project"/>
     <import location="HotelReservationImpl.wsdl" namespace="http://HotelReservation.Milestone1.SC13Project"/>
