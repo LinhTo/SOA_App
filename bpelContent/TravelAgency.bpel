@@ -851,7 +851,8 @@
                             
                             
                             
-                            <![CDATA[($BookStoreWSResponse.parameters/books:return[1]/xsdbooks:price) * 10]]>
+                            
+                            <![CDATA[($BookStoreWSResponse.parameters/books:return[1]/xsdbook:price) * 10]]>
                         </bpel:from>
                         <bpel:to part="parameters" variable="PaymentWSRequest">
                             <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">

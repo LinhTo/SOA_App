@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" 
 xmlns:ns="http://TravelAgency.Milestone3.SC13Project/" 
-xmlns:shipping="http://Shipping.Milestone1.SC12Project">
+xmlns:shipping="http://Shipping.Milestone1.SC12Project" xmlns:books="http://BookStore.Milestone1.SC13Project" xmlns:hotel="http://HotelReservation.Milestone1.SC13Project" xmlns:warehouse="http://Warehouse.Milestone1.SC13Project" xmlns:flight="http://FlightTicket.Milestone1.SC13Project" xmlns:payment="http://Payment.Milestone1.SC13Project">
   <process name="ns:g33-TravelAgency">
     <active>true</active>
     <retired>false</retired>
@@ -12,5 +12,15 @@ xmlns:shipping="http://Shipping.Milestone1.SC12Project">
     <invoke partnerLink="ShipperWS">
       <service name="shipping:ShippingWS" port="ShippingWSHttpSoap11Endpoint"/>
     </invoke>
+    <invoke partnerLink="HotelReservationWS">
+    	<service name="hotel:HotelReservationWS" port="HotelReservationImplHttpSoap11Endpoint"></service></invoke>
+    <invoke partnerLink="WarehouseWS">
+    	<service name="warehouse:WarehouseWS" port="WarehouseImplHttpSoap11Endpoint"></service></invoke>
+    <invoke partnerLink="BookStoreWS">
+    	<service name="books:BookStoreWS" port="BookStoreImplHttpSoap11Endpoint"></service></invoke>
+    <invoke partnerLink="PaymentWS">
+    	<service name="payment:PaymentWS" port="PaymentImplHttpSoap11Endpoint"></service></invoke>
+    <invoke partnerLink="FlightTicketWS">
+    	<service name="flight:FlightTicketWS" port="FlightTicketImplHttpSoap11Endpoint"></service></invoke>
   </process>
 </deploy>
