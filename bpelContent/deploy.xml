@@ -13,14 +13,14 @@ xmlns:shipping="http://Shipping.Milestone1.SC12Project" xmlns:books="http://Book
       <service name="shipping:ShippingWS" port="ShippingWSHttpSoap11Endpoint"/>
     </invoke>
     <invoke partnerLink="HotelReservationWS">
-    	<service name="hotel:HotelReservationWS" port="HotelReservationImplHttpSoap11Endpoint"></service></invoke>
+    	<service name="hotel:HotelReservationImpl" port="HotelReservationImplHttpSoap11Endpoint"></service></invoke>
     <invoke partnerLink="WarehouseWS">
-    	<service name="warehouse:WarehouseWS" port="WarehouseImplHttpSoap11Endpoint"></service></invoke>
+    	<service name="warehouse:WarehouseImpl" port="WarehouseImplHttpSoap11Endpoint"></service></invoke>
     <invoke partnerLink="BookStoreWS">
-    	<service name="books:BookStoreWS" port="BookStoreImplHttpSoap11Endpoint"></service></invoke>
+    	<service name="books:BookStoreImpl" port="BookStoreImplHttpSoap11Endpoint"></service></invoke>
     <invoke partnerLink="PaymentWS">
-    	<service name="payment:PaymentWS" port="PaymentImplHttpSoap11Endpoint"></service></invoke>
+    	<service name="payment:PaymentImpl" port="PaymentImplHttpSoap11Endpoint"></service></invoke>
     <invoke partnerLink="FlightTicketWS">
-    	<service name="flight:FlightTicketWS" port="FlightTicketImplHttpSoap11Endpoint"></service></invoke>
+    	<service name="flight:FlightTicketImpl" port="FlightTicketImplHttpSoap11Endpoint"></service></invoke>
   </process>
 </deploy>
